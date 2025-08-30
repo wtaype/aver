@@ -526,7 +526,7 @@ function initThemes() {
     ];
 
     const $witemas = $('.witemas');
-    const savedTheme = getls('witema') || 'Cielo';
+    const savedTheme = getls('witema') || 'Dulce';
     
     themes.forEach(theme => {
         const $tema = $(`<div class="tema" data-theme="${theme.name}" title="Tema ${theme.name}" style="background: var(--bg-${theme.name})"></div>`);
