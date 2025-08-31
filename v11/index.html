@@ -4,9 +4,516 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/aver/v11/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,600;0,700;0,800;0,900;1,500;1,700&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
+:root{
+--fz_s1:.62vw;
+--fz_s2:.67vw;
+--fz_s3:.72vw;
+--fz_s4:.77vw;
+--fz_m:.8vw;
+--fz_m1:.85vw;
+--fz_m2:.9vw;
+--fz_m3:.95vw;
+--fz_l:1.0;
+--fz_l1:1.07vw;
+--fz_l2:1.15vw;
+--fz_l3:1.2vw;
+--fz_t1:1.73vw;
+--fz_t2:2.30vw;
+--ff_P:'Poppins',segoe ui;
+--ff_R:'Rubik',segoe ui;
+--F:#fff;
+--0:#000;
+--D:#ddd;
+--ok:#3cd741;
+--wr:#ff3849;
+--bn:#00a8e6;
+--bsh:0 4px 6px rgba(0,0,0,0.1);
+}
+:root[data-theme="Cielo"]{
+--bg:#ccefff;
+--wb:#e5f7ff;
+--tx:#000;
+--txa:#FFF;
+--txe:#000;
+--txh:#1978d7;
+--bdr:#66d6ff;
+--mco:#1978d7;
+--svg:#1978d7;
+--bxs:#b8ecff;
+--bga:#166bc0;
+--hv:#00a8e6;
+--hva:#1873cd;
+}
+:root[data-theme="Dulce"]{
+--bg:#ffccd1;
+--wb:#ffebed;
+--tx:#000;
+--txa:#FFF;
+--txe:#000;
+--txh:#ff3849;
+--bdr:#ff99a1;
+--mco:#ff3849;
+--svg:#ff3849;
+--bxs:#ffdbde;
+--bga:#ff3849;
+--hv:#ff7a85;
+--hva:#ff3849;
+}
+:root[data-theme="Paz"]{
+--bg:#ccffce;
+--wb:#ebffeb;
+--tx:#000;
+--txa:#FFF;
+--txe:#000;
+--txh:#25b62a;
+--bdr:#96e99a;
+--mco:#25b62a;
+--svg:#25b62a;
+--bxs:#c0f2c2;
+--bga:#00b300;
+--hv:#3cd741;
+--hva:#25b62a;
+}
+:root[data-theme="Mora"]{
+--bg:#e4ccff;
+--wb:#f4ebff;
+--tx:#000;
+--txa:#FFF;
+--txe:#000;
+--txh:#6a00f5;
+--bdr:#c799ff;
+--mco:#6a00f5;
+--svg:#6a00f5;
+--bxs:#ebdbff;
+--bga:#5800cc;
+--hv:#9442ff;
+--hva:#5f00db;
+}
+:root[data-theme="Futuro"]{
+--bg:#1d273f;
+--wb:#2a385b;
+--tx:#fff;
+--txa:#00f3ff;
+--txe:#3e496f;
+--txh:#00f3ff;
+--bdr:#007980;
+--mco:#3e496f;
+--svg:#00f3ff;
+--bxs:none;
+--bga:#3d5185;
+--hv:#4d5a89;
+--hva:#3e496f;
+}
+.mthemes{
+right:10vh;
+bottom:-2vh;
+position:fixed;
+display:flex;
+}
+.tema{
+width:var(--fz_t1);
+height:var(--fz_t2);
+display:flex
+}
+.tema:hover,.mtha{
+width:var(--fz_t2);
+transition:.5s ease-in-out;
+border-radius:.3vw .3vw 0 0;
+}
+.abwc{
+background:var(--wb);
+top:0;
+width:99%;
+height:100%;
+padding:2vh 2vw;
+overflow:scroll;
+line-height:1.80;
+}
+.abwok{
+background:var(--mco);
+color:var(--txa);
+}
+*::-webkit-scrollbar{
+width:.4vw
+}
+*::-webkit-scrollbar-track{
+background:var(--hv)
+}
+*::-webkit-scrollbar-thumb{
+background:var(--hva);
+border-radius:.1vw
+}
+*{
+margin:0;
+padding:0;
+color:var(--tx);
+box-sizing:border-box;
+scroll-behavior:smooth;
+font-size:var(--fz_m);
+font-family:var(--ff_P)
+}
+body{
+height:100vh;
+background:var(--bg);
+}
+.txc,h1{
+text-align:center
+}
+.psr{
+position:relative
+}
+.psa{
+position:absolute
+}
+.dfw{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:1vh;
+}
+.dfc,nav a,.oph{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:.5vh
+}
+.dfd{
+display:flex;
+flex-direction:column;
+gap:.7vh;
+}
+.dfwc{
+display:flex;
+justify-content:space-between;
+flex-direction:column;
+align-items:center;
+}
+.dfch{
+display:flex;
+justify-content:center;
+gap:1vh;
+}
+.dfcv{
+display:flex;
+align-items:center;
+gap:1vh;
+}
+.dfhc{
+display:flex;
+align-items:center;
+flex-direction:column;
+gap:1vh;
+}
+.dfcc{
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:.5vh;
+}
+.oph{
+gap:.5vh;
+font-size:var(--fz_s2);
+}
+.dfa{
+display:flex;
+justify-content:center;
+align-items:center;
+gap:.5vh;
+}
+.dfa>*{
+flex:1 1 auto
+}
+.dfaw,.hcon{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+}
+.dfaw>*,.hcon>*{
+flex:1 1 auto;
+}
+.dpn,[type="checkbox"],[type="radio"]{
+display:none
+}
+.dpb,.miha{
+display:block
+}
+.dpf{
+display:flex
+}
+h1{
+font-weight:800;
+color:var(--txh);
+padding-block:0 1vh;
+letter-spacing:.08vw;
+font-size:var(--fz_l1);
+text-shadow:0.1vh 0.1vw 0.1vh var(--bg);
+}
+a{
+text-decoration:none
+}
+button,input,textarea,select{
+border:none;
+outline:none
+}
+button{
+padding:.7vh 1.5vw;
+border-radius:.5vh;
+background:var(--hv);
+color:var(--txa);
+}
+button:hover,.bta,.dbtx:hover{
+cursor:pointer;
+transform:translateY(-.4vh) scale(1.02);
+transition:all .5s ease-in-out;
+background:var(--hva);
+}
+.wdp{
+margin:auto;
+max-width:90vw;
+}
+input,textarea{
+color:var(--txe)
+}
+input{
+padding:.6vh 1vh;
+border-radius:.25vw;
+border:.05vw solid var(--bg);
+box-shadow:0 0.06vw 0.15vw var(--hv);
+}
+input:focus,.txed:focus{
+outline:.05vw solid var(--hv);
+}
+textarea,img{
+max-width:100%;
+}
+.txe{
+width:100%;
+min-height:26vh;
+min-width:100%;
+border-radius:.5vh;
+padding:1vh 1.2vh;
+font-size:var(--fz_m);
+line-height:1.20;
+font-family:var(--ff_R);
+letter-spacing:.02vw;
+overflow-x:auto;
+background:var(--F);
+margin-block:0 .7vh;
+border:.05vw solid var(--hv);
+}
+.txe:hover{
+box-shadow:0.2vw 0.3vw 0.4vw 0.2vh var(--bg);
+transform:translateY(-.1vh) scale(1.003);
+transition:.3s ease-in-out;
+}
+.df{
+display:flex
+}
+.df3,.mtoo{
+display:flex;
+flex-wrap:wrap;
+gap:1vh;
+}
+.df3>*,.mtoo>*{
+flex:1 1 32%;
+}
+.dg{
+display:grid
+}
+.dgg{
+display:grid;
+gap:1vh;
+}
+.wi{
+width:var(--fz_s2);
+fill:var(--svg)
+}
+.nva{
+width:100%;
+gap:0;
+}
+.bth{
+color:var(--txa);
+padding-block:1vh;
+background:var(--hv);
+}
+.bth:hover,.btha{
+color:var(--txa);
+background:var(--hva);
+transition:.3s ease-in-out;
+}
+.nva a:first-child{
+border-radius:.5vh 0 0 0;
+}
+.nva a:last-child{
+border-radius:0 .5vh 0 0;
+}
+nav{
+gap:0;
+}
+textarea{
+width:100%;
+min-height:26vh;
+min-width:100%;
+border-radius:.5vh;
+padding:1vh 1.2vh;
+font-size:var(--fz_m);
+line-height:1.18vw;
+font-family:var(--ff_R);
+letter-spacing:.02vw;
+overflow-x:auto;
+background:var(--F);
+margin-block:0 .7vh;
+border:.05vw solid var(--hv);
+}
+textarea:hover{
+box-shadow:0.2vw 0.3vw 0.4vw 0.2vh var(--bg);
+transform:translateY(-.1vh) scale(1.003);
+transition:.3s ease-in-out;
+}
+th,td{
+border:.05vw solid var(--hv);
+}
+.ok,.ok .wi{
+color:var(--ok);
+fill:var(--ok)
+}
+.wr{
+color:var(--wr)
+}
+.bn{
+color:var(--bn)
+}
+.hmz{
+display:grid;
+grid-template-columns:80vw auto;
+gap:1vh;
+}
+.hma{
+background:var(--F);
+}
+.wb,.box{
+padding:.5vh;
+border-radius:.3vh;
+background:var(--F);
+}
+.box{
+height:20vh;
+padding:1vh;
+}
+.foo{
+bottom:0;
+padding-block:.5vh;
+padding-bottom:2.6vh;
+}
+.foo *{
+font-size:var(--fz_s2);
+margin-inline:.3vh;
+}
+.mibox{
+gap:1vh;
+}
+.box{
+flex:1 1 auto;
+}
+.hmx input{
+width:4vw;
+text-align:center;
+}
+.cvtl{
+gap:1vh;
+}
+select{
+padding:0.5rem 1rem;
+border:2px solid var(--mco);
+border-radius:5px;
+background-color:white;
+font-size:1rem;
+cursor:pointer;
+}
+.cvpi,.cvtx{
+padding:1vh 1.3vh;
+box-shadow:var(--bsh);
+border-radius:.3vw;
+}
+.sbx{
+padding-block:.5vh;
+}
+.cvcp{
+padding:1vh 2vh;
+margin-inline:.2vh;
+border-radius:.4vh;
+box-shadow:var(--bsh);
+}
+#colorPicker{
+padding:0;
+margin:0 .3vh;
+}
+.hmx{
+background:var(--wb);
+box-shadow:-0.4vh 0.4vh 0.2vh #0000001a;
+}
+.micanva{
+width:100%;
+height:100vh;
+margin:auto;
+display:block;
+background:#fff;
+cursor:crosshair;
+box-shadow:0.1vh 0.4vh 0.2vh #0000001a;
+}
+@media (max-width:770px){
+:root{
+--fz_s1:1.12vw;
+--fz_s2:1.27vw;
+--fz_s3:1.32vw;
+--fz_s4:1.47vw;
+--fz_m:1.5vw;
+--fz_m1:1.55vw;
+--fz_m2:1.60vw;
+--fz_m3:1.65vw;
+--fz_l:1.70vw;
+--fz_l1:1.75vw;
+--fz_l2:1.80vw;
+--fz_l3:1.85vw;
+--fz_t1:2.30vw;
+--fz_t2:3.30vw;
+}
+
+}
+@media (max-width:570px){
+:root{
+--fz_s1:2.12vw;
+--fz_s2:2.27vw;
+--fz_s3:2.32vw;
+--fz_s4:2.47vw;
+--fz_m:2.50vw;
+--fz_m1:2.55vw;
+--fz_m2:2.6vw;
+--fz_m3:2.65vw;
+--fz_l:2.70vw;
+--fz_l1:2.75vw;
+--fz_l2:2.80vw;
+--fz_l3:2.85vw;
+--fz_t1:3.30vw;
+--fz_t2:4.30vw;
+}
+*{
+cursor:auto
+}
+.miwb{
+max-width:96vw
+}
+
+}
+    </style>
+
+
     <title>Vite App</title>
-    <script type="module" crossorigin src="/aver/v11/assets/index-BiW8cFfO.js"></script>
-    <link rel="stylesheet" crossorigin href="/aver/v11/assets/index-DraM2N3Z.css">
+    <script type="module" crossorigin src="/aver/v11/assets/index-DTF0ycA3.js"></script>
+    <link rel="stylesheet" crossorigin href="/aver/v11/assets/index-CMWbPu_N.css">
   </head>
   <body>
     <h1>Hola mundo Aver</h1>
