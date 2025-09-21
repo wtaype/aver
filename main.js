@@ -361,7 +361,7 @@ function updateStats() {
     
     // Estadísticas por empleado
     const rubiSales = monthSales.filter(s => s.seller === 'RUBI');
-    const piereSales = monthSales.filter(s => s.seller === 'PIERE');
+    const piereSales = monthSales.filter(s => s.seller === 'PIERO');
     
     const rubiPoints = rubiSales.reduce((sum, s) => sum + s.points, 0);
     const pierePoints = piereSales.reduce((sum, s) => sum + s.points, 0);
@@ -399,16 +399,16 @@ function updateEmployeeCard(employee, stats) {
 
 function updateRankings(rubiPoints, pierePoints) {
     $('.worker-card').removeClass('champion runner-up');
-    
+
     if (rubiPoints > pierePoints) {
         $('.worker-card[data-employee="RUBI"]').addClass('champion');
-        $('.worker-card[data-employee="PIERE"]').addClass('runner-up');
+        $('.worker-card[data-employee="PIERO"]').addClass('runner-up');
         $('.worker-card[data-employee="RUBI"] .rank-badge').html('<i class="fas fa-crown"></i> #1');
-        $('.worker-card[data-employee="PIERE"] .rank-badge').html('<i class="fas fa-medal"></i> #2');
+        $('.worker-card[data-employee="PIERO"] .rank-badge').html('<i class="fas fa-medal"></i> #2');
     } else if (pierePoints > rubiPoints) {
-        $('.worker-card[data-employee="PIERE"]').addClass('champion');
+        $('.worker-card[data-employee="PIERO"]').addClass('champion');
         $('.worker-card[data-employee="RUBI"]').addClass('runner-up');
-        $('.worker-card[data-employee="PIERE"] .rank-badge').html('<i class="fas fa-crown"></i> #1');
+        $('.worker-card[data-employee="PIERO"] .rank-badge').html('<i class="fas fa-crown"></i> #1');
         $('.worker-card[data-employee="RUBI"] .rank-badge').html('<i class="fas fa-medal"></i> #2');
     } else {
         $('.worker-card').addClass('runner-up');
@@ -433,8 +433,8 @@ function updateCompetitionSummary(sales) {
 function setDateTime() {
     const now = new Date();
     $('#tourDate').val(Tiempo('iso'));
-    
-    const futureTime = new Date(now.getTime() + 30 * 60000);
+     
+    const futureTime = new Date(now.getTime() + 0);
     $('#tourTime').val(futureTime.toTimeString().slice(0, 5));
 }
 
