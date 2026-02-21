@@ -312,9 +312,9 @@ blockquote{padding:1.5vh 2vh;margin:2vh 0;background:var(--bg4);border-left:4px 
       </a>
     </nav>
   </div><!-- LADO IZQUIERDO: Logo + Navegación -->
-  <!-- <div class="nv_right">
+  <div class="nv_right">
     <div class="wiauth"><div class="ski_auth"></div></div>
-  </div>  -->
+  </div> 
  <div class="wimenu dpn"><i class="fas fa-bars"></i></div>
 </header>
 <main id="wimain"></main>
@@ -330,25 +330,20 @@ blockquote{padding:1.5vh 2vh;margin:2vh 0;background:var(--bg4);border-left:4px 
 <script type="module">
   (() => {
     const k = 'wiflash';
-    const css = [
-      'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css',
-      'https://fonts.googleapis.com/css2?family=Rubik:wght@300..900&display=swap',
-      'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap',
-      'https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap'
-    ];
     const load = () => {
-      css.forEach(u => document.head.appendChild(
+      ['https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css',
+       'https://fonts.googleapis.com/css2?family=Rubik:wght@300..900&display=swap',
+       'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap',
+       'https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap'
+      ].forEach(u => document.head.appendChild(
         Object.assign(document.createElement('link'), { rel: 'stylesheet', href: u })
       ));
       import('./smiles/main.js');
       localStorage[k] = 1;
     };
-    // Visita 2+: carga inmediata (ya en caché, no bloquea)
     if (localStorage[k]) { load(); return; }
-    // Primera visita: espera window.load → LCP ya ocurrió
-    window.addEventListener('load', () =>
-      (requestIdleCallback || setTimeout)(load), { once: true }
-    );
+    const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { o.disconnect(); load(); } }, { rootMargin: '200px' });
+    o.observe(document.querySelector('#wimain'));
   })();
 </script>
 
