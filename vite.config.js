@@ -12,7 +12,6 @@ export default defineConfig(({ mode }) => ({
       output: {
         manualChunks: {
           vendor: ['jquery'],
-          firebase: ['firebase/app', 'firebase/auth', 'firebase/firestore']
         }
       },
       plugins: [{
