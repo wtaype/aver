@@ -330,23 +330,25 @@ blockquote{padding:1.5vh 2vh;margin:2vh 0;background:var(--bg4);border-left:4px 
 <script type="module">
   (() => {
     const k = 'wiflash';
+    const css = [
+      'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css',
+      'https://fonts.googleapis.com/css2?family=Rubik:wght@300..900&display=swap',
+      'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap',
+      'https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap'
+    ];
     const load = () => {
-      ['https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css',
-       'https://fonts.googleapis.com/css2?family=Rubik:wght@300..900&display=swap',
-       'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap',
-       'https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap'
-      ].forEach(u => document.head.appendChild(
+      css.forEach(u => document.head.appendChild(
         Object.assign(document.createElement('link'), { rel: 'stylesheet', href: u })
       ));
       import('./smiles/main.js');
       localStorage[k] = 1;
     };
+    // Visita 2+: carga inmediata (ya en caché, no bloquea)
     if (localStorage[k]) { load(); return; }
-    // Primera visita: espera LCP antes de cargar fuentes externas
-    new PerformanceObserver((list, obs) => {
-      obs.disconnect();
-      (requestIdleCallback || setTimeout)(load, { timeout: 2000 });
-    }).observe({ type: 'largest-contentful-paint', buffered: true });
+    // Primera visita: espera window.load → LCP ya ocurrió
+    window.addEventListener('load', () =>
+      (requestIdleCallback || setTimeout)(load), { once: true }
+    );
   })();
 </script>
 
