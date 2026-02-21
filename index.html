@@ -329,21 +329,12 @@ blockquote{padding:1.5vh 2vh;margin:2vh 0;background:var(--bg4);border-left:4px 
 <script>(()=>{const d=document,h=d.documentElement,w=d.querySelector('#wiTema');if(!w)return;const ts=[...w.querySelectorAll('.tema')],m=d.querySelector('meta[name="theme-color"]')||d.head.appendChild(Object.assign(d.createElement('meta'),{name:'theme-color'})),st=t=>{const[n,c]=t.dataset.ths.split('|');h.dataset.theme=n;m.content=c;localStorage.wiTema=t.dataset.ths;ts.forEach(x=>x.classList.toggle('mtha',x===t))};w.addEventListener('click',e=>e.target.matches('.tema')&&st(e.target),{passive:!0});const i=w.querySelector(`[data-ths="${localStorage.wiTema}"]`)||ts[4];i&&st(i)})();</script>
 <script type="module">
   (() => {
-    const k = 'wiflash';
-    const load = () => {
-      ['https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css',
-       'https://fonts.googleapis.com/css2?family=Rubik:wght@300..900&display=swap',
-       'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap',
-       'https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap'
-      ].forEach(u => document.head.appendChild(
-        Object.assign(document.createElement('link'), { rel: 'stylesheet', href: u })
-      ));
-      import('./smiles/main.js');
-      localStorage[k] = 1;
-    };
+    const k = 'wiflash', load = () => { import('./smiles/main.js'); localStorage[k] = 1; };
     if (localStorage[k]) { load(); return; }
-    const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { o.disconnect(); load(); } }, { rootMargin: '200px' });
-    o.observe(document.querySelector('#wimain'));
+    new IntersectionObserver(([e], o) => {
+      if (!e.isIntersecting) return;
+      o.disconnect(); load();
+    }, { rootMargin: '200px' }).observe(document.querySelector('#wimain'));
   })();
 </script>
 

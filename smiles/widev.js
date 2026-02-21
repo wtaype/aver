@@ -166,7 +166,7 @@ export const wicopy = (txt, elm = null, msg = '¡Copiado!') => {
   }
 };
 
-// ===  ⚡ CARGA INTELIGENTE v14 ===
+// ===  ⚡ CARGA INTELIGENTE v15 ===
 export const wiSmart = (() => {
   const ok = new Set(), c = getls('wiSmart');
   const run = (o) => {
