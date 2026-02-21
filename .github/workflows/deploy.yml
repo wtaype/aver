@@ -1,58 +1,68 @@
-name: Deploy aver to GitHub Pages
+name: 🚀 Deploy awonbe
 
 on:
   push:
-    branches: 
-      - main # Publica lo más nuevo cuando actualizas la rama 'main'
-    tags:
-      - 'v*'   # Publica versiones etiquetadas (ej: v1.0, v2.3) cuando creas un tag
-  workflow_dispatch: # Permite iniciar el ayudante manualmente desde GitHub
+    branches: [main]
+    tags: ['v*']
+  workflow_dispatch:
 
 permissions:
-  contents: write # Permiso para que el ayudante pueda escribir en tu repositorio (crear la página)
+  contents: write
+  pages: write
+  id-token: write
 
 jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest # El ayudante usará una computadora virtual con Ubuntu
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      IS_TAG: ${{ github.ref_type == 'tag' }}
+      BASE_URL: ${{ github.ref_type == 'tag' && format('/awonbe/{0}/', github.ref_name) || '/awonbe/' }}
+      DEST_DIR: ${{ github.ref_type == 'tag' && github.ref_name || '.' }}
+      
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4 # El ayudante descarga tu código del repositorio
+      - uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4 # Prepara Node.js, necesario para construir tu proyecto Vite
+      - uses: actions/setup-node@v4
         with:
-          node-version: '20' # Usamos una versión reciente de Node.js
-          cache: 'npm' # Activa el caché para dependencias de npm
+          node-version: '20'
+          cache: 'npm'
 
-      - name: Install dependencies
-        run: npm ci # Usa 'ci' en lugar de 'install' para instalaciones más rápidas y consistentes
+      - run: npm ci
 
-      - name: Determine Base URL and Output Directory
-        id: paths # Este paso decide la dirección base y dónde poner los archivos
+      - name: 🏗️ Build for GitHub Pages
+        run: npm run build -- --base=$BASE_URL
+        env:
+          VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
+          VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
+          VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
+          VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}
+          VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
+          VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
+
+      - name: 🐙 Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./dist
+          destination_dir: ${{ env.DEST_DIR }}
+          keep_files: true
+
+      - name: 🔥 Build & Deploy to Firebase
+        if: env.IS_TAG == 'false'
         run: |
-          if [[ "${{ github.ref_type }}" == "tag" ]]; then
-            TAG_NAME="${{ github.ref_name }}" # Obtiene el nombre de la etiqueta, ej: v1.0
-            echo "BASE_URL=/aver/${TAG_NAME}/" >> $GITHUB_ENV
-            echo "PUBLISH_DIR=./dist" >> $GITHUB_ENV # La carpeta que Vite crea con tu página lista
-            echo "DESTINATION_DIR=${TAG_NAME}" >> $GITHUB_ENV # Carpeta para esta versión en la página (ej: /v1.0/)
-            echo "Construyendo para la etiqueta: ${TAG_NAME}"
-          else
-            echo "BASE_URL=/aver/" >> $GITHUB_ENV # Dirección para la versión más nueva
-            echo "PUBLISH_DIR=./dist" >> $GITHUB_ENV
-            echo "DESTINATION_DIR=." >> $GITHUB_ENV # La versión más nueva va en la raíz de la página
-            echo "Construyendo para la rama main"
-          fi
+          npm run build -- --base=/
+          npm install -g firebase-tools@latest
+          firebase deploy --only hosting --project ${{ secrets.FIREBASE_PROJECT_ID }} --token "${{ secrets.FIREBASE_TOKEN }}"
+        env:
+          VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
+          VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
+          VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
+          VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}
+          VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
+          VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
 
-      - name: Build project
-        run: npm run build -- --base=${{ env.BASE_URL }}
-        # Este comando construye tu página. Le decimos a Vite la dirección base correcta.
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3 # Versión estable de la acción para GitHub Pages
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }} # Un token secreto para que el ayudante tenga permiso
-          publish_branch: gh-pages # Publicaremos en una rama llamada 'gh-pages'
-          publish_dir: ${{ env.PUBLISH_DIR }} # La carpeta 'dist' que construimos antes
-          destination_dir: ${{ env.DESTINATION_DIR }} # Dónde poner los archivos en la rama 'gh-pages'
-          keep_files: true # ¡Importante! No borra versiones antiguas al publicar una nueva
-          # cname: tu-dominio.com # Si tuvieras un dominio propio, lo pones aquí  
+      - run: |
+          echo "✅ Deploy completado!"
+          echo "🔥 Firebase: https://awonbeee.web.app (solo main)"
+          echo "🐙 GitHub: https://wtaype.me/awonbe/${{ env.DEST_DIR }}"
